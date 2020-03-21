@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import styled, { createGlobalStyle } from 'styled-components';
 
@@ -6,6 +6,9 @@ import Slider from 'rc-slider';
 import sliderCSS from './../lib/rc-slider-css';
 
 import foodCategories from './../lib/food';
+import createPersistedState from 'use-persisted-state';
+
+import NoSSR from 'react-no-ssr';
 
 const GlobalStyles = createGlobalStyle`
 	* {
@@ -25,7 +28,7 @@ const Wrapper = styled.div`
 	flex-direction: column;
 	align-items: center;
 	min-height: 100vh;
-	background-image: linear-gradient(135deg, #90f7ec 10%, #32ccbc 100%);
+	background-image: linear-gradient(135deg, #43cbff 10%, #9708cc 100%);
 `;
 
 const Header = styled.div`
@@ -56,6 +59,18 @@ const Main = styled.div`
 
 	width: 50rem;
 	max-width: calc(100vw - 2rem);
+
+	button {
+		display: flex;
+		border: none;
+		justify-content: center;
+		width: 5rem;
+		background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
+		color: white;
+		font-size: 1.4rem;
+		margin-left: auto;
+		border-radius: 9px;
+	}
 `;
 
 const Sliders = styled.div`
@@ -81,11 +96,15 @@ for (const category in foodCategories) {
 	sliders.push({ key: category, ...foodCategories[category] });
 }
 
+const useSliderState = createPersistedState('slider-values');
+
 const Home = () => {
-	const [sliderValues, setSliderValues] = useState(defaultSliderValues);
+	const [sliderValues, setSliderValues] = useSliderState(defaultSliderValues);
 
 	const updateSlider = key => value =>
 		setSliderValues(s => ({ ...s, [key]: value }));
+
+	const reset = () => setSliderValues(defaultSliderValues);
 
 	return (
 		<Wrapper>
@@ -101,21 +120,29 @@ const Home = () => {
 				<h1>TwoWeeksOfFood</h1>
 			</Header>
 			<Main>
+				<button type="button" onClick={reset}>
+					Reset
+				</button>
 				<Sliders>
 					{sliders.map(({ key, icon, name, color }) => (
 						<div key={key}>
 							<p>
 								<span style={{ color }}>{icon}</span> {name}
 							</p>
-							<Slider
-								onChange={updateSlider(key)}
-								defaultValue={50}
-								startPoint={50}
-							/>
+							<NoSSR>
+								<Slider
+									onChange={updateSlider(key)}
+									value={sliderValues[key]}
+									defaultValue={50}
+									startPoint={0}
+								/>
+							</NoSSR>
 						</div>
 					))}
 				</Sliders>
-				<p>{JSON.stringify(sliderValues, null, 2)}</p>
+				<NoSSR>
+					<p>{JSON.stringify(sliderValues, null, 2)}</p>
+				</NoSSR>
 			</Main>
 		</Wrapper>
 	);

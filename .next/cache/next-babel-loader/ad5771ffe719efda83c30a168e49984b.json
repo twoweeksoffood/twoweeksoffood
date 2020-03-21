@@ -1,1 +1,0 @@
-{"ast":null,"code":"async function getStyles(ctx) {\n  const styleElement = ctx.sheets.getStyleElement(); // Seal the stylesheet to prevent memory leaks\n\n  ctx.sheets.seal();\n  return styleElement;\n}\n\nmodule.exports = getStyles;","map":null,"metadata":{},"sourceType":"script"}
