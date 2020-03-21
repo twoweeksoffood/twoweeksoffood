@@ -6,8 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next",
-    "build": "next build && next export",
-    "deploy": "npm run build && gh-pages -t -d out -s '{**/*,.nojekyll}'"
+    "build": "next build && next export"
   },
   "dependencies": {
     "@explodingcamera/eslint-config": "^3.2.0",
