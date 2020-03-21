@@ -29,12 +29,56 @@ const Wrapper = styled.div`
 	align-items: center;
 	min-height: 100vh;
 	background-image: linear-gradient(135deg, #43cbff 10%, #9708cc 100%);
+
+	button {
+		cursor: pointer;
+		display: flex;
+		border: none;
+		justify-content: center;
+		font-size: 1.4rem;
+		border-radius: 9px;
+		padding: 0.5rem 0.8rem;
+
+		transform: translateY(0);
+
+		&:hover {
+			transform: translateY(-2px);
+		}
+
+		transition: all 0.1s ease-in-out;
+
+		&.page {
+			margin-right: 0.5rem;
+		}
+
+		&.active {
+			background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
+			color: white;
+		}
+
+		&.reset {
+			margin-left: auto;
+			background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
+			color: white;
+		}
+
+		&.next {
+			background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
+			margin-top: 3rem;
+			margin-bottom: 2rem;
+			color: white;
+		}
+	}
 `;
 
 const Header = styled.div`
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	margin-top: 3rem;
+
+	width: 50rem;
+	max-width: calc(100vw - 2rem);
 
 	h1 {
 		background-image: linear-gradient(
@@ -50,6 +94,13 @@ const Header = styled.div`
 		filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.3));
 
 		font-size: calc(2rem + 2vw);
+
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	div {
+		display: flex;
 	}
 `;
 
@@ -59,17 +110,25 @@ const Main = styled.div`
 
 	width: 50rem;
 	max-width: calc(100vw - 2rem);
+`;
 
-	button {
-		display: flex;
-		border: none;
-		justify-content: center;
-		width: 5rem;
-		background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
+const Intro = styled.div`
+	display: flex;
+	flex-direction: column;
+
+	justify-content: center;
+
+	h1 {
 		color: white;
-		font-size: 1.4rem;
-		margin-left: auto;
-		border-radius: 9px;
+	}
+`;
+
+const Results = styled.div`
+	display: flex;
+	flex-direction: column;
+
+	h1 {
+		color: white;
 	}
 `;
 
@@ -97,14 +156,18 @@ for (const category in foodCategories) {
 }
 
 const useSliderState = createPersistedState('slider-values');
+const usePageSlider = createPersistedState('page');
 
 const Home = () => {
 	const [sliderValues, setSliderValues] = useSliderState(defaultSliderValues);
+	const [page, setPage] = usePageSlider(1);
+
+	const switchPage = page => () => setPage(page);
 
 	const updateSlider = key => value =>
 		setSliderValues(s => ({ ...s, [key]: value }));
 
-	const reset = () => setSliderValues(defaultSliderValues);
+	const reset = () => setSliderValues(defaultSliderValues) && switchPage(1);
 
 	return (
 		<Wrapper>
@@ -118,31 +181,71 @@ const Home = () => {
 			</Head>
 			<Header>
 				<h1>TwoWeeksOfFood</h1>
+
+				<div>
+					<button
+						className={`page ${page === 1 && 'active'}`}
+						type="button"
+						onClick={switchPage(1)}
+					>
+						Start
+					</button>
+					<button
+						className={`page ${page === 2 && 'active'}`}
+						type="button"
+						onClick={switchPage(2)}
+					>
+						Preferences
+					</button>
+					<button
+						className={`page ${page === 3 && 'active'}`}
+						type="button"
+						onClick={switchPage(3)}
+					>
+						Results
+					</button>
+					<button className="reset" type="button" onClick={reset}>
+						Reset
+					</button>
+				</div>
 			</Header>
 			<Main>
-				<button type="button" onClick={reset}>
-					Reset
-				</button>
-				<Sliders>
-					{sliders.map(({ key, icon, name, color }) => (
-						<div key={key}>
-							<p>
-								<span style={{ color }}>{icon}</span> {name}
-							</p>
-							<NoSSR>
-								<Slider
-									onChange={updateSlider(key)}
-									value={sliderValues[key]}
-									defaultValue={50}
-									startPoint={0}
-								/>
-							</NoSSR>
-						</div>
-					))}
-				</Sliders>
-				<NoSSR>
-					<p>{JSON.stringify(sliderValues, null, 2)}</p>
-				</NoSSR>
+				{page === 1 && (
+					<Intro>
+						<h1>Introduction</h1>
+						<button type="button" className="next" onClick={switchPage(2)}>
+							Next
+						</button>
+					</Intro>
+				)}
+				{page === 2 && (
+					<Sliders>
+						{sliders.map(({ key, icon, name, color }) => (
+							<div key={key}>
+								<p>
+									<span style={{ color }}>{icon}</span> {name}
+								</p>
+								<NoSSR>
+									<Slider
+										onChange={updateSlider(key)}
+										value={sliderValues[key]}
+										defaultValue={50}
+										startPoint={0}
+									/>
+								</NoSSR>
+							</div>
+						))}
+						<button type="button" className="next" onClick={switchPage(3)}>
+							Next
+						</button>
+					</Sliders>
+				)}
+
+				{page === 3 && (
+					<Results>
+						<h1>Your Results</h1>
+					</Results>
+				)}
 			</Main>
 		</Wrapper>
 	);
