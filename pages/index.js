@@ -253,47 +253,49 @@ const Home = () => {
 			<Header>
 				<h1>TwoWeeksOfFood</h1>
 
-				<div>
-					<button
-						className={`page ${page === 1 && 'active'}`}
-						type="button"
-						onClick={switchPage(1)}
-					>
-						Start
-					</button>
-					<button
-						className={`page ${page === 2 && 'active'} `}
-						type="button"
-						onClick={switchPage(2)}
-					>
-						Preferences
-					</button>
-					<button
-						className={`page ${page === 3 && 'active'} `}
-						type="button"
-						onClick={switchPage(3)}
-					>
-						Results
-					</button>
-					<button className="reset" type="button" onClick={reset}>
-						Reset
-					</button>
-				</div>
+				<NoSSR>
+					<div>
+						<button
+							className={`page ${page === 1 && 'active'}`}
+							type="button"
+							onClick={switchPage(1)}
+						>
+							Start
+						</button>
+						<button
+							className={`page ${page === 2 && 'active'} `}
+							type="button"
+							onClick={switchPage(2)}
+						>
+							Preferences
+						</button>
+						<button
+							className={`page ${page === 3 && 'active'} `}
+							type="button"
+							onClick={switchPage(3)}
+						>
+							Results
+						</button>
+						<button className="reset" type="button" onClick={reset}>
+							Reset
+						</button>
+					</div>
+				</NoSSR>
 			</Header>
 			<Main>
-				{page === 1 && (
-					<Intro>
-						<h1>Introduction</h1>
-						<p>
-							TwoWeeksOfFood helps you to have a healthy balanced of food in
-							times of crisis. By only having extra food for 2 weeks, you
-							relieve supermarkets and prevent hamster purchases. In the
-							following, we will ask a couple of questions to see how many
-							calories you need per day. Don't worry, the answers are not being
-							collected anywhere.
-						</p>
-						<Settings>
-							<NoSSR>
+				<NoSSR>
+					{page === 1 && (
+						<Intro>
+							<h1>Introduction</h1>
+							<p>
+								TwoWeeksOfFood helps you to have a healthy balanced of food in
+								times of crisis. By only having extra food for 2 weeks, you
+								relieve supermarkets and prevent hamster purchases. In the
+								following, we will ask a couple of questions to see how many
+								calories you need per day. Don't worry, the answers are not
+								being collected anywhere.
+							</p>
+							<Settings>
 								<h2>Your Gender</h2>
 								<div className="gender">
 									<button
@@ -332,41 +334,39 @@ const Home = () => {
 									/>
 									<h3> Years</h3>
 								</div>
-							</NoSSR>
-						</Settings>
-						<button type="button" className="next" onClick={switchPage(2)}>
-							Next
-						</button>
-					</Intro>
-				)}
-				{page === 2 && (
-					<Sliders>
-						{sliders.map(({ key, icon, name, color }) => (
-							<div key={key}>
-								<p>
-									<span style={{ color }}>{icon}</span> {name}
-								</p>
-								<NoSSR>
+							</Settings>
+							<button type="button" className="next" onClick={switchPage(2)}>
+								Next
+							</button>
+						</Intro>
+					)}
+					{page === 2 && (
+						<Sliders>
+							{sliders.map(({ key, icon, name, color }) => (
+								<div key={key}>
+									<p>
+										<span style={{ color }}>{icon}</span> {name}
+									</p>
 									<Slider
 										onChange={updateSlider(key)}
 										value={sliderValues[key]}
 										defaultValue={50}
 										startPoint={0}
 									/>
-								</NoSSR>
-							</div>
-						))}
-						<button type="button" className="next" onClick={switchPage(3)}>
-							Next
-						</button>
-					</Sliders>
-				)}
+								</div>
+							))}
+							<button type="button" className="next" onClick={switchPage(3)}>
+								Next
+							</button>
+						</Sliders>
+					)}
 
-				{page === 3 && (
-					<Results>
-						<h1>Your Results</h1>
-					</Results>
-				)}
+					{page === 3 && (
+						<Results>
+							<h1>Your Results</h1>
+						</Results>
+					)}
+				</NoSSR>
 			</Main>
 		</Wrapper>
 	);
