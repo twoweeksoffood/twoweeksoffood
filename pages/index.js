@@ -156,7 +156,7 @@ const Results = styled.div`
 
 	h1 {
 		color: white;
-		font-size: calc(3rem + 2vw);
+		font-size: calc(2.5rem + 2vw);
 
 		@media print {
 			margin-top: 4rem;
@@ -165,13 +165,13 @@ const Results = styled.div`
 	}
 
 	h2 {
-		font-size: calc(2.5rem + 2vw);
+		font-size: calc(1.5rem + 2vw);
 		color: white;
 		margin-left: 0.5rem;
 	}
 
 	p {
-		font-size: calc(2rem + 2vw);
+		font-size: calc(1.2rem + 2vw);
 		color: white;
 		margin-left: auto;
 	}
@@ -422,6 +422,38 @@ const Home = () => {
 								<li>
 									<h2>Cheese</h2>
 									<p>200g</p>
+								</li>
+								<li>
+									<h2>Apples</h2>
+									<p>5x</p>
+								</li>
+								<li>
+									<h2>Strawberries</h2>
+									<p>100g</p>
+								</li>
+								<li>
+									<h2>Potatoes</h2>
+									<p>500g</p>
+								</li>
+								<li>
+									<h2>Maccaroni</h2>
+									<p>500g</p>
+								</li>
+								<li>
+									<h2>Yogurt</h2>
+									<p>4x</p>
+								</li>
+								<li>
+									<h2>Cookies</h2>
+									<p>200g</p>
+								</li>
+								<li>
+									<h2>H-Milk</h2>
+									<p>2l</p>
+								</li>
+								<li>
+									<h2>Water</h2>
+									<p>24x 1l</p>
 								</li>
 							</ul>
 						</Results>
