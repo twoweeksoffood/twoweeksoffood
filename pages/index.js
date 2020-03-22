@@ -4,11 +4,11 @@ import styled, { createGlobalStyle } from 'styled-components';
 
 import Slider from 'rc-slider';
 import sliderCSS from './../lib/rc-slider-css';
-
 import foodCategories from './../lib/food';
-import createPersistedState from 'use-persisted-state';
 
+import createPersistedState from 'use-persisted-state';
 import NoSSR from 'react-no-ssr';
+import Map from './../lib/map-component';
 
 const GlobalStyles = createGlobalStyle`
 	* {
@@ -456,6 +456,12 @@ const Home = () => {
 									<p>24x 1l</p>
 								</li>
 							</ul>
+							<br />
+							<h1>Nearby Supermarkets</h1>
+							<Map />
+							<br />
+							<br />
+							<br />
 						</Results>
 					)}
 				</NoSSR>
