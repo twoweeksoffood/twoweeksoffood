@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "next",
-    "build": "next build && next export"
+    "build": "next build && next export",
+    "debug": "node -r esm lib/"
   },
   "dependencies": {
     "@explodingcamera/eslint-config": "^3.2.0",
@@ -21,5 +22,8 @@
     "react-no-ssr": "^1.1.0",
     "styled-components": "^5.0.1",
     "use-persisted-state": "^0.3.0"
+  },
+  "devDependencies": {
+    "esm": "^3.2.25"
   }
 }
