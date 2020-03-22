@@ -351,12 +351,12 @@ const Home = () => {
 						<Intro>
 							<h1>Introduction</h1>
 							<p>
-								TwoWeeksOfFood helps you to have a healthy balanced of food in
-								times of crisis. By only having extra food for 2 weeks, you
-								relieve supermarkets and prevent hamster purchases. In the
-								following, we will ask a couple of questions to see how many
-								calories you need per day. Don't worry, the answers are not
-								being collected anywhere.
+								TwoWeeksOfFood helps you to maintain a healthy balance of food
+								in times of crisis. By only having food for 2 weeks, you relieve
+								supermarkets and prevent hamster purchases. In the following, we
+								will ask a couple of questions to see how many calories you need
+								per day. Don't worry, the answers are not being collected
+								anywhere.
 							</p>
 							<Settings>
 								<h2>Your Gender</h2>
@@ -423,7 +423,6 @@ const Home = () => {
 							</button>
 						</Sliders>
 					)}
-
 					{page === 3 && (
 						<Results>
 							<h1>Your Shopping List</h1>
