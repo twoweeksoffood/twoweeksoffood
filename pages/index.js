@@ -35,7 +35,7 @@ const Wrapper = styled.div`
 		display: flex;
 		border: none;
 		justify-content: center;
-		font-size: 1.4rem;
+		font-size: calc(0.5rem + 2vw);
 		border-radius: 9px;
 		padding: 0.5rem 0.8rem;
 
@@ -76,6 +76,7 @@ const Header = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	margin-top: 3rem;
+	margin-bottom: 2rem;
 
 	width: 50rem;
 	max-width: calc(100vw - 2rem);
@@ -121,6 +122,12 @@ const Intro = styled.div`
 	h1 {
 		color: white;
 	}
+
+	p {
+		color: white;
+		font-size: calc(1rem + 1vw);
+		margin-bottom: 1rem;
+	}
 `;
 
 const Results = styled.div`
@@ -146,6 +153,56 @@ const Sliders = styled.div`
 	}
 `;
 
+const Settings = styled.div`
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+
+	h2 {
+		margin-top: 1.5rem;
+		color: white;
+		font-size: 2.5rem;
+		text-align: center;
+	}
+
+	div.gender {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	div.age {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		h3 {
+			color: white;
+			margin-left: 0.5rem;
+			font-size: 2rem;
+		}
+	}
+
+	button {
+		margin: 0.5rem;
+	}
+
+	input[type='number']::-webkit-inner-spin-button,
+	input[type='number']::-webkit-outer-spin-button {
+		opacity: 1;
+	}
+
+	input {
+		width: 4rem;
+		display: flex;
+		border: none;
+		justify-content: center;
+		font-size: calc(0.5rem + 2vw);
+		border-radius: 9px;
+		padding: 0.5rem 0.8rem;
+	}
+`;
+
 let defaultSliderValues = {};
 let sliders = [];
 
@@ -157,16 +214,29 @@ for (const category in foodCategories) {
 
 const useSliderState = createPersistedState('slider-values');
 const usePageSlider = createPersistedState('page');
+const useSettingsState = createPersistedState('settings');
+
+const defaultSettingsState = {
+	gender: null,
+	age: 18,
+};
 
 const Home = () => {
 	const [sliderValues, setSliderValues] = useSliderState(defaultSliderValues);
+	const [settingsState, setSettingsState] = useSettingsState(
+		defaultSettingsState,
+	);
+
 	const [page, setPage] = usePageSlider(1);
 
+	const updateSetting = (setting, value) => ({ target }) =>
+		setSettingsState(s => ({
+			...s,
+			[setting]: value ? value : target.value,
+		}));
 	const switchPage = page => () => setPage(page);
-
 	const updateSlider = key => value =>
 		setSliderValues(s => ({ ...s, [key]: value }));
-
 	const reset = () => setSliderValues(defaultSliderValues) && switchPage(1);
 
 	return (
@@ -174,6 +244,7 @@ const Home = () => {
 			<GlobalStyles />
 			<Head>
 				<title>TwoWeeksOfFood</title>
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link
 					href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700;800&display=swap"
 					rel="stylesheet"
@@ -191,14 +262,14 @@ const Home = () => {
 						Start
 					</button>
 					<button
-						className={`page ${page === 2 && 'active'}`}
+						className={`page ${page === 2 && 'active'} `}
 						type="button"
 						onClick={switchPage(2)}
 					>
 						Preferences
 					</button>
 					<button
-						className={`page ${page === 3 && 'active'}`}
+						className={`page ${page === 3 && 'active'} `}
 						type="button"
 						onClick={switchPage(3)}
 					>
@@ -213,6 +284,56 @@ const Home = () => {
 				{page === 1 && (
 					<Intro>
 						<h1>Introduction</h1>
+						<p>
+							TwoWeeksOfFood helps you to have a healthy balanced of food in
+							times of crisis. By only having extra food for 2 weeks, you
+							relieve supermarkets and prevent hamster purchases. In the
+							following, we will ask a couple of questions to see how many
+							calories you need per day. Don't worry, the answers are not being
+							collected anywhere.
+						</p>
+						<Settings>
+							<NoSSR>
+								<h2>Your Gender</h2>
+								<div className="gender">
+									<button
+										className={`${settingsState.gender === 'female' &&
+											'active'} `}
+										type="button"
+										onClick={updateSetting('gender', 'female')}
+									>
+										♀️ Female
+									</button>
+									<button
+										className={`${settingsState.gender === 'male' &&
+											'active'} `}
+										type="button"
+										onClick={updateSetting('gender', 'male')}
+									>
+										♂️ Male
+									</button>
+									<button
+										className={`${settingsState.gender === 'other' &&
+											'active'} `}
+										type="button"
+										onClick={updateSetting('gender', 'other')}
+									>
+										⚪ Other / Prefer not to specify
+									</button>
+								</div>
+								<h2>Your Age</h2>
+								<div className="age">
+									<input
+										type="number"
+										min="0"
+										max="100"
+										value={settingsState.age}
+										onChange={updateSetting('age')}
+									/>
+									<h3> Years</h3>
+								</div>
+							</NoSSR>
+						</Settings>
 						<button type="button" className="next" onClick={switchPage(2)}>
 							Next
 						</button>
