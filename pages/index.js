@@ -30,6 +30,10 @@ const Wrapper = styled.div`
 	min-height: 100vh;
 	background-image: linear-gradient(135deg, #43cbff 10%, #9708cc 100%);
 
+	@media print {
+		background: white;
+	}
+
 	button {
 		cursor: pointer;
 		display: flex;
@@ -80,6 +84,10 @@ const Header = styled.div`
 
 	width: 50rem;
 	max-width: calc(100vw - 2rem);
+
+	@media print {
+		display: none;
+	}
 
 	h1 {
 		background-image: linear-gradient(
@@ -133,8 +141,54 @@ const Intro = styled.div`
 const Results = styled.div`
 	display: flex;
 	flex-direction: column;
+	filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.3));
+
+	@media print {
+		filter: none;
+		h1,
+		h2,
+		p,
+		li,
+		ul li:before {
+			color: black;
+		}
+	}
 
 	h1 {
+		color: white;
+		font-size: calc(3rem + 2vw);
+
+		@media print {
+			margin-top: 4rem;
+			font-size: 3.5rem;
+		}
+	}
+
+	h2 {
+		font-size: calc(2.5rem + 2vw);
+		color: white;
+		margin-left: 0.5rem;
+	}
+
+	p {
+		font-size: calc(2rem + 2vw);
+		color: white;
+		margin-left: auto;
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+
+		li {
+			display: flex;
+			align-items: center;
+		}
+	}
+
+	ul li:before {
+		font-size: calc(3rem + 2vw);
+		content: '✓';
 		color: white;
 	}
 `;
@@ -363,7 +417,13 @@ const Home = () => {
 
 					{page === 3 && (
 						<Results>
-							<h1>Your Results</h1>
+							<h1>Your Shopping List</h1>
+							<ul>
+								<li>
+									<h2>Cheese</h2>
+									<p>200g</p>
+								</li>
+							</ul>
 						</Results>
 					)}
 				</NoSSR>
