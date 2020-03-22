@@ -291,7 +291,10 @@ const Home = () => {
 	const switchPage = page => () => setPage(page);
 	const updateSlider = key => value =>
 		setSliderValues(s => ({ ...s, [key]: value }));
-	const reset = () => setSliderValues(defaultSliderValues) && switchPage(1);
+	const reset = () =>
+		setSliderValues(defaultSliderValues) &&
+		setSettingsState(defaultSettingsState) &&
+		switchPage(1);
 
 	return (
 		<Wrapper>
