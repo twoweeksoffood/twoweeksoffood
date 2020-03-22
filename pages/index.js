@@ -5,6 +5,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import Slider from 'rc-slider';
 import sliderCSS from './../lib/rc-slider-css';
 import foodCategories from './../lib/food';
+import calculate from './../lib/computation';
 
 import createPersistedState from 'use-persisted-state';
 import NoSSR from 'react-no-ssr';
@@ -275,6 +276,11 @@ const defaultSettingsState = {
 	age: 18,
 };
 
+const capitalize = s => {
+	if (typeof s !== 'string') return '';
+	return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
 const Home = () => {
 	const [sliderValues, setSliderValues] = useSliderState(defaultSliderValues);
 	const [settingsState, setSettingsState] = useSettingsState(
@@ -422,38 +428,16 @@ const Home = () => {
 						<Results>
 							<h1>Your Shopping List</h1>
 							<ul>
-								<li>
-									<h2>Cheese</h2>
-									<p>200g</p>
-								</li>
-								<li>
-									<h2>Apples</h2>
-									<p>5x</p>
-								</li>
-								<li>
-									<h2>Strawberries</h2>
-									<p>100g</p>
-								</li>
-								<li>
-									<h2>Potatoes</h2>
-									<p>500g</p>
-								</li>
-								<li>
-									<h2>Maccaroni</h2>
-									<p>500g</p>
-								</li>
-								<li>
-									<h2>Yogurt</h2>
-									<p>4x</p>
-								</li>
-								<li>
-									<h2>Cookies</h2>
-									<p>200g</p>
-								</li>
-								<li>
-									<h2>H-Milk</h2>
-									<p>2l</p>
-								</li>
+								{Object.entries(calculate(settingsState, sliderValues))
+									.filter(([_, v]) => v !== undefined)
+									.map(([, v]) =>
+										Object.entries(v).map(([name, grams]) => (
+											<li key={name}>
+												<h2>{capitalize(name.split(/(?=[A-Z])/).join(' '))}</h2>
+												<p>{grams}g</p>
+											</li>
+										)),
+									)}
 								<li>
 									<h2>Water</h2>
 									<p>24x 1l</p>
