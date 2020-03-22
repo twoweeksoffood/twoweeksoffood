@@ -11,7 +11,12 @@ const DebugComponent = () => {
 		sweets: 100,
 	};
 
-	const result = calculate({ gender: 'female', age: 38 }, testData) || {};
+	let result = {};
+	try {
+		result = calculate({ gender: 'female', age: 38 }, testData) || {};
+	} catch (error) {
+		result = error;
+	}
 
 	return <pre>{JSON.stringify(result, null, 2)}</pre>;
 };
