@@ -427,7 +427,12 @@ const Home = () => {
 						<Results>
 							<h1>Your Shopping List</h1>
 							<ul>
-								{Object.entries(calculate(settingsState, sliderValues))
+								{Object.entries(
+									calculate(settingsState, {
+										fruits: sliderValues.fruits ? sliderValues.fruits / 2 : 50,
+										...sliderValues,
+									}),
+								)
 									.filter(([_, v]) => v !== undefined)
 									.map(([, v]) =>
 										Object.entries(v).map(([name, grams]) => (
