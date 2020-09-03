@@ -5,4 +5,4 @@
 # Synopsis
 A webapp that calculates how much food you need to survive for 2 weeks of quarantine, taking in factors such as age, gender and the type of food the user prefers. This was a contribution for the WeVsVirus Hackathon in 2020 by the german federal government.
 
-Take a look at the live version [here](https://twoweeksoffood.netlify.app)
+Take a look at the live version [here](https://twoweeksoffood.netlify.app).
